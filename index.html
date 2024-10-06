@@ -17,22 +17,25 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        .title {
+        h1 {
             font-size: 48px;
-            margin: 0;
+        }
+
+        p {
+            font-size: 20px;
         }
 
         .subtitle {
-            font-size: 20px;
             margin-top: 10px;
             border-right: 0.15em solid green;
             white-space: nowrap;
             overflow: hidden;
+            display: inline-block;
         }
 
         .typewriter {
             display: inline-block;
-            animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+            animation: typing 4s steps(30, end);
         }
 
         @keyframes typing {
@@ -45,7 +48,7 @@
         }
 
         @keyframes blink-caret {
-            from, to {
+            0%, 100% {
                 border-color: transparent;
             }
             50% {
@@ -53,14 +56,8 @@
             }
         }
 
-        h1 {
-            font-size: 48px;
-            margin: 0;
-        }
-
-        p {
-            font-size: 20px;
-            margin-top: 10px;
+        .blinking {
+            animation: blink-caret 0.5s step-end infinite;
         }
     </style>
 </head>
@@ -68,6 +65,7 @@
     <h1 class="title">The Bookmarklet Library</h1>
     <p class="subtitle">
         <span class="typewriter" data-text="Browse the library, from fun, to games, to even hacks!"></span>
+        <span class="blinking">|</span>
     </p>
 
     <script>
@@ -82,6 +80,7 @@
                 setTimeout(type, 100);
             }
         }
+
         type();
     </script>
 </body>
