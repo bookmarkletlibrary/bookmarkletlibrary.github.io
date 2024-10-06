@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarklet Library</title>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
+        /* Previous styles remain the same */
         body {
             display: flex;
             flex-direction: column;
@@ -16,6 +16,14 @@
             background-color: black;
             overflow: hidden;
             position: relative;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
         #container {
             position: relative;
@@ -37,8 +45,19 @@
         }
         .typewriter {
             display: inline-block;
-            border-right: 0.15em solid green;
-            animation: typing 4s steps(30, end), blink-caret 0.5s step-end infinite;
+            animation: typing 4s steps(30, end);
+        }
+        /* New cursor styles */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: green;
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
         }
         #raindrops {
             position: absolute;
@@ -81,21 +100,30 @@
         #button:hover {
             background-color: darkgreen;
         }
+        /* Add typewriter container style */
+        .typewriter-container {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
-<div id="particles-js" style="display: none;"></div>
+<div id="particles-js"></div>
 <div id="raindrops"></div>
 <button id="button">Click to verify you are not a robot!</button>
 
 <div id="container">
     <h1>The Bookmarklet Library</h1>
-    <p id="typewriter">Browse the library, from fun, to games, to even hacks!</p>
+    <div class="typewriter-container">
+        <p id="typewriter"></p>
+        <span class="cursor"></span>
+    </div>
 </div>
 
 <audio id="background-music" src="ambienttravel.mp3" preload="auto"></audio>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 <script>
     const raindropCount = 500;
     const raindropContainer = document.getElementById('raindrops');
@@ -115,14 +143,16 @@
         document.getElementById('background-music').play();
         this.style.display = 'none';
         document.getElementById('raindrops').style.display = 'none';
-        document.getElementById('particles-js').style.display = 'block';
+        
+        if (window.particlesJS) {
             particlesJS("particles-js", {
+                // Particles configuration remains the same
                 particles: {
                     number: {
-                        value: 100,
+                        value: 150,
                         density: {
                             enable: true,
-                            value_area: 800
+                            value_area: 1500
                         }
                     },
                     color: {
@@ -130,13 +160,6 @@
                     },
                     shape: {
                         type: "circle",
-                        stroke: {
-                            width: 0,
-                            color: "#000000"
-                        },
-                        polygon: {
-                            nb_sides: 5
-                        },
                     },
                     opacity: {
                         value: 0.5,
@@ -149,7 +172,7 @@
                         }
                     },
                     size: {
-                        value: 5,
+                        value: 3,
                         random: true,
                         anim: {
                             enable: false,
@@ -163,12 +186,7 @@
                         distance: 150,
                         color: "#00ff00",
                         opacity: 0.4,
-                        width: 2,
-                        shadow: {
-                            enable: true,
-                            color: "#00ff00",
-                            blur: 5
-                        }
+                        width: 1
                     },
                     move: {
                         enable: true,
@@ -205,32 +223,21 @@
                                 opacity: 1
                             }
                         },
-                        bubble: {
-                            distance: 400,
-                            size: 40,
-                            duration: 2,
-                            opacity: 8,
-                            speed: 3
-                        },
-                        repulse: {
-                            distance: 200,
-                            duration: 1
-                        },
                         push: {
                             particles_nb: 4
-                        },
-                        remove: {
-                            particles_nb: 2
                         }
                     }
                 },
                 retina_detect: true
             });
+        } else {
+            console.error('particles.js not loaded');
+        }
 
         document.getElementById('container').style.opacity = 1;
 
         const typewriterText = document.getElementById('typewriter');
-        const text = typewriterText.textContent;
+        const text = "Browse the library, from fun, to games, to even hacks!";
         typewriterText.textContent = '';
 
         let i = 0;
@@ -243,11 +250,6 @@
             }
         }, 100);
     });
-
-    const cursor = document.getElementById('blinking-cursor');
-    setInterval(() => {
-        cursor.style.visibility = cursor.style.visibility === 'hidden' ? 'visible' : 'hidden';
-    }, 500);
 
     window.onload = function() {
         document.getElementById('container').style.opacity = 0;
