@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarklet Library</title>
     <style>
-        /* Previous styles remain the same */
         body {
             display: flex;
             flex-direction: column;
@@ -30,6 +29,7 @@
             z-index: 1;
             opacity: 0;
             transition: opacity 1s ease;
+            text-align: center;
         }
         h1 {
             font-family: 'Courier New', monospace;
@@ -47,7 +47,6 @@
             display: inline-block;
             animation: typing 4s steps(30, end);
         }
-        /* New cursor styles */
         .cursor {
             display: inline-block;
             width: 10px;
@@ -58,6 +57,29 @@
         }
         @keyframes blink {
             50% { opacity: 0; }
+        }
+        #visit-library {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: #00ff00;
+            background-color: transparent;
+            border: 2px solid #00ff00;
+            padding: 12px 24px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        #visit-library:hover {
+            background-color: #00ff00;
+            color: black;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         #raindrops {
             position: absolute;
@@ -100,10 +122,11 @@
         #button:hover {
             background-color: darkgreen;
         }
-        /* Add typewriter container style */
         .typewriter-container {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -119,6 +142,7 @@
         <p id="typewriter"></p>
         <span class="cursor"></span>
     </div>
+    <button id="visit-library">Visit the Library</button>
 </div>
 
 <audio id="background-music" src="ambienttravel.mp3" preload="auto"></audio>
@@ -146,7 +170,6 @@
         
         if (window.particlesJS) {
             particlesJS("particles-js", {
-                // Particles configuration remains the same
                 particles: {
                     number: {
                         value: 150,
@@ -237,6 +260,7 @@
         document.getElementById('container').style.opacity = 1;
 
         const typewriterText = document.getElementById('typewriter');
+        const visitLibraryBtn = document.getElementById('visit-library');
         const text = "Browse the library, from fun, to games, to even hacks!";
         typewriterText.textContent = '';
 
@@ -247,6 +271,9 @@
                 i++;
             } else {
                 clearInterval(typingInterval);
+                setTimeout(() => {
+                    visitLibraryBtn.style.animation = 'fadeIn 1s forwards';
+                }, 500);
             }
         }, 100);
     });
