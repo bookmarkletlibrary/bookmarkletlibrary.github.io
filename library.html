@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Pages Bookmarklet</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: black;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Courier New', monospace;
+            perspective: 1000px;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .cards-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg);
+            transition: transform 0.3s ease;
+        }
+
+        .card {
+            position: relative;
+            background-color: rgba(0, 255, 0, 0.08);
+            border: 2px solid rgba(0, 255, 0, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            color: #00ff00;
+            font-size: 36px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        p {
+            color: #00ff00;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0;
+            text-align: center;
+        }
+
+        button {
+            position: relative;
+            z-index: 1;
+            padding: 12px 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            color: white;
+            background-color: green;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        #raindrops {
+            position: fixed;
+            top: -30px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: green;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-50px);
+                opacity: 0;
+            }
+        }
+
+        .copy-button {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="raindrops"></div>
+    <button id="enter-button">Click to verify you are not a robot!</button>
+    
+    <div class="cards-container">
+        <div class="card">
+            <h1>3D Pages</h1>
+            <p>This bookmarklet makes all of your pages 3D! It's very fun to toy around and play with.</p>
+            <button class="copy-button" onclick="copyBookmarklet()">Copy Bookmarklet</button>
+        </div>
+
+        <div class="card">
+            <h1>Another Card</h1>
+            <p>You can easily add more cards by copying this template!</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        const bookmarklet = `javascript:(function(){var js=document.body.appendChild(document.createElement("script"));js.onerror=function(){alert("Error! The Script Could Not Be Loaded!")};js.src="https://rawgit.com/Krazete/bookmarklets/master/tri.js"})();`;
+
+        function copyBookmarklet() {
+            navigator.clipboard.writeText(bookmarklet).then(() => {
+                alert('Bookmarklet copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        const raindropCount = 500;
+        const raindropContainer = document.getElementById('raindrops');
+        const cardsContainer = document.querySelector('.cards-container');
+
+        for (let i = 0; i < raindropCount; i++) {
+            const raindrop = document.createElement('div');
+            raindrop.classList.add('rain');
+            raindrop.style.left = Math.random() * 100 + 'vw';
+            raindrop.style.animationDuration = Math.random() * 1 + 1 + 's';
+            raindrop.style.animationDelay = Math.random() * 2 + 's';
+            raindrop.style.transform = `translateX(${Math.random() * 50 - 25}px)`;
+            raindropContainer.appendChild(raindrop);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (e.pageX - window.innerWidth / 2) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            const limitedX = Math.max(Math.min(xAxis, 15), -15);
+            const limitedY = Math.max(Math.min(yAxis, 15), -15);
+            cardsContainer.style.transform = `rotateX(${limitedY}deg) rotateY(${limitedX}deg)`;
+        });
+
+        document.getElementById('enter-button').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('raindrops').style.display = 'none';
+            
+            if (window.particlesJS) {
+                particlesJS("particles-js", {
+                    particles: {
+                        number: { value: 150, density: { enable: true, value_area: 1500 } },
+                        color: { value: "#00ff00" },
+                        shape: { type: "circle" },
+                        opacity: {
+                            value: 0.5,
+                            random: false,
+                            anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+                        },
+                        size: {
+                            value: 3,
+                            random: true,
+                            anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+                        },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#00ff00",
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: "none",
+                            random: false,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false,
+                            attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "grab" },
+                            onclick: { enable: true, mode: "push" },
+                            resize: true
+                        },
+                        modes: {
+                            grab: { distance: 140, line_linked: { opacity: 1 } },
+                            push: { particles_nb: 4 }
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = 1;
+            });
+        });
+    </script>
+</body>
+</html>
