@@ -17,6 +17,42 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
+        .title {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            margin-top: 10px;
+            border-right: 0.15em solid green;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .typewriter {
+            display: inline-block;
+            animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                content: '';
+            }
+            to {
+                content: attr(data-text);
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: green;
+            }
+        }
+
         h1 {
             font-size: 48px;
             margin: 0;
@@ -29,7 +65,24 @@
     </style>
 </head>
 <body>
-    <h1>The Bookmarklet Library</h1>
-    <p>Browse the library, from fun, to games, to even hacks!</p>
+    <h1 class="title">The Bookmarklet Library</h1>
+    <p class="subtitle">
+        <span class="typewriter" data-text="Browse the library, from fun, to games, to even hacks!"></span>
+    </p>
+
+    <script>
+        const subtitle = document.querySelector('.typewriter');
+        const text = subtitle.getAttribute('data-text');
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                subtitle.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 100);
+            }
+        }
+        type();
+    </script>
 </body>
 </html>
