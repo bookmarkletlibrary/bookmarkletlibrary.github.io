@@ -89,7 +89,7 @@
     <p id="typewriter">Browse the library, from fun, to games, to even hacks!<span id="blinking-cursor">|</span></p>
 </div>
 
-<audio id="background-music" src="your-music-file.mp3" preload="auto"></audio>
+<audio id="background-music" src="ambienttravel.mp3" preload="auto"></audio>
 
 <script>
     particlesJS("particles-js", {
@@ -219,6 +219,7 @@
     document.getElementById('button').addEventListener('click', function() {
         document.getElementById('background-music').volume = 0.5;
         document.getElementById('background-music').play();
+        this.style.display = 'none';
         document.getElementById('raindrops').style.display = 'none';
         document.getElementById('container').style.opacity = 1;
 
@@ -241,6 +242,10 @@
     setInterval(() => {
         cursor.style.visibility = cursor.style.visibility === 'hidden' ? 'visible' : 'hidden';
     }, 500);
+
+    window.onload = function() {
+        document.getElementById('container').style.opacity = 0;
+    };
 </script>
 </body>
 </html>
