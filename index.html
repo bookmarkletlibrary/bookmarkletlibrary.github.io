@@ -37,7 +37,7 @@
         }
         #raindrops {
             position: absolute;
-            top: 0;
+            top: -30px; /* Start 30px above the screen */
             left: 0;
             width: 100%;
             height: 100%;
@@ -92,7 +92,7 @@
 <audio id="background-music" src="ambienttravel.mp3" preload="auto"></audio>
 
 <script>
-    const raindropCount = 200;
+    const raindropCount = 500; // Increased number of raindrops
     const raindropContainer = document.getElementById('raindrops');
 
     for (let i = 0; i < raindropCount; i++) {
@@ -115,7 +115,7 @@
         particlesJS("particles-js", {
             particles: {
                 number: {
-                    value: 100,
+                    value: 200, // Increased number of particles
                     density: {
                         enable: true,
                         value_area: 800
