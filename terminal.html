@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Terminal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crt {
+            position: relative;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 600px;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.8);
+            filter: drop-shadow(0 0 10px #00ff00);
+            transition: background-color 0.3s ease;
+            z-index: 2;
+        }
+
+        #terminal {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #inputLine {
+            display: flex;
+            color: #00ff00;
+            margin-top: 10px;
+        }
+
+        #commandInput {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: inherit;
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1em;
+            padding-left: 10px;
+            text-shadow: 0 0 5px pink;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            text-shadow: 0 0 5px pink;
+        }
+
+        .crt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                rgba(0, 0, 0, 0.2) 0,
+                rgba(0, 0, 0, 0.2) 1px,
+                rgba(0, 0, 0, 0.4) 1px,
+                rgba(0, 0, 0, 0.4) 2px
+            );
+            pointer-events: none;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="crt" id="terminalContainer">
+        <div id="terminal">
+            <div id="output"></div>
+            <div id="inputLine">
+                <span id="prompt">>> </span><input type="text" id="commandInput" autofocus>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let isPink = false;
+
+            $('#commandInput').on('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    const command = $(this).val().trim();
+                    $(this).val('');
+                    processCommand(command);
+                }
+            });
+
+            function processCommand(command) {
+                const output = $('#output');
+                output.append(`>> ${command}\n`);
+
+                const printCommandRegex = /^print\s*\(\s*(.+?)\s*\)$/;
+                const printMatch = command.match(printCommandRegex);
+
+                if (printMatch) {
+                    output.append(`${printMatch[1]}\n`);
+                } else {
+                    switch (command.toLowerCase()) {
+                        case 'bookmarklet':
+                            window.location.href = 'https://bookmarkletlibrary.github.io';
+                            break;
+                        case 'help':
+                            output.append(`Available commands:\n`);
+                            output.append(`1. bookmarklet - Redirects to the Bookmarklet Library.\n`);
+                            output.append(`2. help - Shows all available commands.\n`);
+                            output.append(`3. voltsec - Redirects to the Voltsec site.\n`);
+                            output.append(`4. github - Redirects to a random GitHub link.\n`);
+                            output.append(`5. pink - Toggles command line text and terminal color.\n`);
+                            output.append(`Version 1.0.7 | NyxOS\n`);
+                            break;
+                        case 'voltsec':
+                            window.location.href = 'https://voltsec3.github.io';
+                            break;
+                        case 'github':
+                            const rand = Math.random();
+                            const githubLink = rand < 0.5 ? 'https://github.com/k3psi' : 'https://github.com/voltsec3';
+                            window.location.href = githubLink;
+                            break;
+                        case 'pink':
+                            isPink = !isPink;
+                            if (isPink) {
+                                $('#output, #inputLine').css('color', 'pink');
+                                $('#terminalContainer').css('background', '#ff66ff');
+                                $('#terminalContainer').css('border', '2px solid pink');
+                                $('#terminalContainer').css('filter', 'drop-shadow(0 0 10px pink)');
+                            } else {
+                                $('#output, #inputLine').css('color', '#00ff00');
+                                $('#terminalContainer').css('background', 'rgba(0, 0, 0, 0.8)');
+                                $('#terminalContainer').css('border', '2px solid #00ff00');
+                                $('#terminalContainer').css('filter', 'drop-shadow(0 0 10px #00ff00)');
+                            }
+                            break;
+                        default:
+                            output.append(`Command not found. Type 'help' for a list of commands.\n`);
+                    }
+                }
+                output.scrollTop(output[0].scrollHeight);
+            }
+
+            function createParticle() {
+                const particle = $('<div class="particle"></div>');
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+
+                particle.css({
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: 'rgba(0, 255, 0, 0.8)',
+                    left: posX + 'px',
+                    top: posY + 'px',
+                    animation: `moveParticle 5s linear forwards`,
+                });
+
+                $('body').append(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 5000);
+            }
+
+            setInterval(createParticle, 300);
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes moveParticle {
+                0% {
+                    transform: translateY(0);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: translateY(-30px);
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
