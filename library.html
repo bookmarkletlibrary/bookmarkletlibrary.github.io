@@ -6,11 +6,17 @@
     <title>3D Pages Bookmarklet</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             margin: 0;
             background-color: black;
+            overflow: hidden;
+            position: relative;
             font-family: 'Courier New', monospace;
             perspective: 1000px;
-            overflow-x: hidden;
         }
 
         #particles-js {
@@ -30,9 +36,9 @@
             gap: 20px;
             width: 100%;
             align-items: center;
-            padding: 20px 0;
-            max-height: 100vh;
-            overflow-y: auto;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg);
+            transition: transform 0.3s ease;
         }
 
         .card {
@@ -44,9 +50,8 @@
             width: 80%;
             max-width: 600px;
             opacity: 0;
-            transition: opacity 1s ease, transform 0.3s ease;
+            transition: opacity 1s ease;
             backdrop-filter: blur(5px);
-            transform-style: preserve-3d;
         }
 
         h1 {
@@ -116,41 +121,30 @@
             display: block;
             margin: 20px auto;
         }
-
-        #enter-button {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
     <div id="raindrops"></div>
     <button id="enter-button">Click to verify you are not a robot!</button>
-    <audio id="background-music" src="library.mp3" preload="auto"></audio>    
+    <audio id="background-music" src="library.mp3" preload="auto"></audio>   
+    <h1>WIP</h1>
     <div class="cards-container">
         <div class="card">
             <h1>3D Pages (Screen)</h1>
             <p>This bookmarklet makes all of your pages 3D! It's very fun to toy around and play with.</p>
-            <button class="copy-button" onclick="copyText('javascript:(function(){var js=document.body.appendChild(document.createElement(\'script\'));js.onerror=function(){alert(\'Error! The Script Could Not Be Loaded!\')};js.src=\'https://rawgit.com/Krazete/bookmarklets/master/tri.js\'})();')">Copy Bookmarklet</button>
+            <button class="copy-button" onclick="copyText('javascript:(function(){var js=document.body.appendChild(document.createElement("script"));js.onerror=function(){alert("Error! The Script Could Not Be Loaded!")};js.src="https://rawgit.com/Krazete/bookmarklets/master/tri.js"})();')">Copy Bookmarklet</button>
         </div>
         <div class="card">
             <h1>Blur (Screen)</h1>
             <p>Troll friends and make them think they are going blind :></p>
-            <button class="copy-button" onclick="copyText('javascript: (function () { document.body.style.filter = \'blur(5px)\'; })();')">Copy Bookmarklet</button>
+            <button class="copy-button" onclick="copyText('javascript: (function () { document.body.style.filter = 'blur(5px)'; })();')">Copy Bookmarklet</button>
         </div>
-        <div class="card">
-            <h1>Bubble Text (Screen)</h1>
-            <p>Turns every character into its bubble form.</p>
-            <button class="copy-button" onclick="copyText('javascript: (function () {window.g = function () {function G(element) {if (element.childNodes.length > 0)for (var i = 0; i < element.childNodes.length; i++) {if (element.childNodes[i].nodeName.toLowerCase() !== \'style\' && element.childNodes[i].nodeName.toLowerCase() !== \'script\') {G(element.childNodes[i]);}}if (element.nodeType === Node.TEXT_NODE && element.nodeValue !== \'\') {var thechars =[\'ⓐ\',\'ⓑ\',\'ⓒ\',\'ⓓ\',\'ⓔ\',\'ⓕ\',\'ⓖ\',\'ⓗ\',\'ⓘ\',\'ⓙ\',\'ⓚ\',\'ⓛ\',\'ⓜ\',\'ⓝ\',\'ⓞ\',\'ⓟ\',\'ⓠ\',\'ⓡ\',\'ⓢ\',\'ⓣ\',\'ⓤ\',\'ⓥ\',\'ⓦ\',\'ⓧ\',\'ⓨ\',\'ⓩ\',\'Ⓐ\',\'Ⓑ\',\'Ⓒ\',\'Ⓓ\',\'Ⓔ\',\'Ⓕ\',\'Ⓖ\',\'Ⓗ\',\'Ⓘ\',\'Ⓙ\',\'Ⓚ\',\'Ⓛ\',\'Ⓜ\',\'Ⓝ\',\'Ⓞ\',\'Ⓟ\',\'Ⓠ\',\'Ⓡ\',\'Ⓢ\',\'Ⓣ\',\'Ⓤ\',\'Ⓥ\',\'Ⓦ\',\'Ⓧ\',\'Ⓨ\',\'Ⓩ\',\'①\',\'②\',\'③\',\'④\',\'⑤\',\'⑥\',\'⑦\',\'⑧\',\'⑨\',\'⓪\'];element.textContent = element.textContent.replace(\'a\', thechars[0]).replace(\'b\', thechars[1]).replace(\'c\', thechars[2]).replace(\'d\', thechars[3]).replace(\'e\', thechars[4]).replace(\'f\', thechars[5]).replace(\'g\', thechars[6]).replace(\'h\', thechars[7]).replace(\'i\', thechars[8]).replace(\'j\', thechars[9]).replace(\'k\', thechars[10]).replace(\'l\', thechars[11]).replace(\'m\', thechars[12]).replace(\'n\', thechars[13]).replace(\'o\', thechars[14]).replace(\'p\', thechars[15]).replace(\'q\', thechars[16]).replace(\'r\', thechars[17]).replace(\'s\', thechars[18]).replace(\'t\', thechars[19]).replace(\'u\', thechars[20]).replace(\'v\', thechars[21]).replace(\'w\', thechars[22]).replace(\'x\', thechars[23]).replace(\'y\', thechars[24]).replace(\'z\', thechars[25]).replace(\'A\', thechars[26]).replace(\'B\', thechars[27]).replace(\'C\', thechars[28]).replace(\'D\', thechars[29]).replace(\'E\', thechars[30]).replace(\'F\', thechars[31]).replace(\'G\', thechars[32]).replace(\'H\', thechars[33]).replace(\'I\', thechars[34]).replace(\'J\', thechars[35]).replace(\'K\', thechars[36]).replace(\'L\', thechars[37]).replace(\'M\', thechars[38]).replace(\'N\', thechars[39]).replace(\'O\', thechars[40]).replace(\'P\', thechars[41]).replace(\'Q\', thechars[42]).replace(\'R\', thechars[43]).replace(\'S\', thechars[44]).replace(\'T\', thechars[45]).replace(\'U\', thechars[46]).replace(\'V\', thechars[47]).replace(\'W\', thechars[48]).replace(\'X\', thechars[49]).replace(\'Y\', thechars[50]).replace(\'Z\', thechars[51]).replace(\'fax\', \'℻\').replace(\'1\', thechars[52]).replace(\'2\', thechars[53]).replace(\'3\', thechars[54]).replace(\'4\', thechars[55]).replace(\'5\', thechars[56]).replace(\'6\', thechars[57]).replace(\'7\', thechars[58]).replace(\'8\', thechars[59]).replace(\'9\', thechars[60]).replace(\'0\', thechars[61]);}}var html = document.getElementsByTagName(\'html\')[0];G(html);};setInterval(g, 1);})();')">Copy Bookmarklet</button>
-        </div>
-        <!-- Add more cards here as needed -->
     </div>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        const bookmarklet = `javascript:(function(){var js=document.body.appendChild(document.createElement("script"));js.onerror=function(){alert("Error! The Script Could Not Be Loaded!")};js.src="https://rawgit.com/Krazete/bookmarklets/master/tri.js"})();`;
+
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
                 console.log('Text copied to clipboard');
@@ -173,21 +167,12 @@
             raindropContainer.appendChild(raindrop);
         }
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const xAxis = (x / rect.width - 0.5) * 30;
-                const yAxis = (y / rect.height - 0.5) * -30;
-                
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-            });
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (e.pageX - window.innerWidth / 2) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            const limitedX = Math.max(Math.min(xAxis, 15), -15);
+            const limitedY = Math.max(Math.min(yAxis, 15), -15);
+            cardsContainer.style.transform = `rotateX(${limitedY}deg) rotateY(${limitedX}deg)`;
         });
 
         document.getElementById('enter-button').addEventListener('click', function() {
