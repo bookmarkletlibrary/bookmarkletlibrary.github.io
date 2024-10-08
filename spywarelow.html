@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Spyware :D</title>
+    <style>
+        body {
+            background-color: #808080;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-family: sans-serif;
+        font-size: 6rem;
+        background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>cool spyware :D</h1>
+    </div>
+    <script>
+        function randomColor() {
+            const colors = ['#FF5733', '#FFBD33', '#FFFC33', '#75FF33', '#33FF57', '#33FFBD', '#33B5FF', '#3358FF', '#8A33FF', '#FF33D4'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function createRain() {
+            const numParticles = 10;
+            for (let i = 0; i < numParticles; i++) {
+                confetti({
+                    particleCount: 1,
+                    startVelocity: Math.random() * 20 + 10,
+                    angle: 90,
+                    spread: 20,
+                    origin: { 
+                        x: Math.random(),
+                        y: 0
+                    },
+                    gravity: 3,
+                    scalar: 1,
+                    colors: [randomColor()]
+                });
+            }
+        }
+
+        function createExplosion(x, y) {
+            const numParticles = 200;
+            for (let i = 0; i < numParticles; i++) {
+                confetti({
+                    particleCount: 1,
+                    startVelocity: Math.random() * 10 + 50,
+                    angle: Math.random() * 360,
+                    spread: 30,
+                    origin: { 
+                        x: x / window.innerWidth,
+                        y: y / window.innerHeight
+                    },
+                    gravity: 1,
+                    scalar: 1.2,
+                    colors: [randomColor()]
+                });
+            }
+        }
+
+        setInterval(createRain, 100);
+        document.addEventListener('click', (event) => {
+            createExplosion(event.clientX, event.clientY);
+        });
+    </script>
+</body>
+</html>
