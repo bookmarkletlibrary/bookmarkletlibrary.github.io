@@ -127,16 +127,21 @@
                     output.append(`${printMatch[1]}\n`);
                 } else {
                     switch (command.toLowerCase()) {
+                        case 'clear':
+                            output.empty();
+                            break;
                         case 'bookmarklet':
                             window.location.href = 'https://bookmarkletlibrary.github.io';
                             break;
                         case 'help':
                             output.append(`Available commands:\n`);
-                            output.append(`1. bookmarklet - Redirects to the Bookmarklet Library.\n`);
-                            output.append(`2. help - Shows all available commands.\n`);
+                            output.append(`1. help - Shows all available commands.\n`);
+                            output.append(`2. bookmarklet - Redirects to the Bookmarklet Library.\n`);
                             output.append(`3. voltsec - Redirects to the Voltsec site.\n`);
                             output.append(`4. github - Redirects to a random GitHub link.\n`);
-                            output.append(`5. pink - Toggles command line text and terminal color.\n`);
+                            output.append(`5. pink - Turns the command line into a pretty princess.\n`);
+                            output.append(`6. clear - Clears the message.\n`);
+                            output.append(`7. rm -rf - ...\n`);
                             output.append(`Version 1.0.7 | NyxOS\n`);
                             break;
                         case 'voltsec':
@@ -160,6 +165,10 @@
                                 $('#terminalContainer').css('border', '2px solid #00ff00');
                                 $('#terminalContainer').css('filter', 'drop-shadow(0 0 10px #00ff00)');
                             }
+                            break;
+                        case 'rm -rf':
+                            $('body').css('background', 'black');
+                            $('#terminalContainer').hide();
                             break;
                         default:
                             output.append(`Command not found. Type 'help' for a list of commands.\n`);
